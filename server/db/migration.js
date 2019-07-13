@@ -24,9 +24,9 @@ connString.connect();
       "lastName" VARCHAR NOT NULL,
       "password" TEXT NOT NULL,
       "email" VARCHAR unique NOT NULL,
-      "createdOn" DATE,
+      "createdOn" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
       "avatar" TEXT,
-      "isVerified" boolean
+      "isVerified" boolean DEFAULT false
     );
 
     CREATE TABLE IF NOT EXISTS accounts (
@@ -34,7 +34,7 @@ connString.connect();
       "accountNumber" NUMERIC,
       "balance" NUMERIC,
       "ownerId" INT,
-      "createdOn" DATE
+      "createdOn" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
 
     CREATE TABLE IF NOT EXISTS savings (
