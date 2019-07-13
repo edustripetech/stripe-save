@@ -1,24 +1,24 @@
 import express from 'express';
 import logger from 'morgan';
+import Debug from 'debug';
+import ServerResponse from './server/modules/ServerResponse';
 
 // import router
-import accountsRoute from './server/routes/AccountRoutes';
+import routes from './server/routes';
 
-const { log } = console;
-
+const debug = Debug('dev');
+const { successfulRequest, serverError, error404 } = ServerResponse;
 const API_PREFIX = '/api/v1';
-
 const app = express();
+const PORT = process.env.PORT || 6000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(logger('dev'));
+app.get('/', (req, res) => successfulRequest(res, 200, { message: 'Welcome To Edustripe-Save!' }));
+app.use(`${API_PREFIX}`, routes);
 
-app.get('/', (req, res) => res.send('Welcome to Edustripe savers app'));
-app.use(`${API_PREFIX}/accounts`, accountsRoute);
-
-const PORT = process.env.PORT || 6000;
-
+app.use(serverError, error404);
 app.listen(PORT, () => {
-  log(`Server is up and running on Port ${PORT}`);
+  debug(`Server is up and running on Port ${PORT}`);
 });

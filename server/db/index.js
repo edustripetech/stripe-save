@@ -39,7 +39,20 @@ export default class Model {
   async create(params, values, rows) {
     try {
       const result = await this.pool.query(
-        `INSERT INTO ${this.table}(${params}) VALUES(${values}) REURNING ${'*' || rows}`
+        `INSERT INTO ${this.table}(${params}) VALUES(${values}) RETURNING ${'*' || rows}`
+      );
+      debug(result.rows);
+      return result.rows;
+    } catch (err) {
+      debug(err);
+      return err;
+    }
+  }
+
+  async update(params, constraints, rows) {
+    try {
+      const result = await this.pool.query(
+        `UPDATE ${this.table} SET ${params} WHERE ${constraints} RETURNING ${'*' || rows}`
       );
       debug(result.rows);
       return result.rows;
@@ -49,3 +62,7 @@ export default class Model {
     }
   }
 }
+
+export const users = new Model(`users`);
+export const accounts = new Model(`accounts`);
+export const savings = new Model(`savings`);
