@@ -5,8 +5,12 @@
   "main": "index.js",
   "scripts": {
     "dev": "DEBUG=d* nodemon --exec babel-node index.js",
+    "start": "npm run build && node ./build/index.js",
     "migration": "DEBUG=d* babel-node server/db/migration.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-babel": "babel -d ./build index.js && babel ./server --out-dir build/server",
+    "build": "npm run clean && npm run build-babel",
+    "clean": "rm -rf build && mkdir build"
   },
   "keywords": [
     "saving",
@@ -15,6 +19,7 @@
   "author": "edustripe",
   "license": "ISC",
   "dependencies": {
+    "@babel/polyfill": "^7.4.4",
     "@hapi/joi": "^15.1.0",
     "@sendgrid/mail": "^6.4.0",
     "bcrypt": "^3.0.6",
