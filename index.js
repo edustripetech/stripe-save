@@ -1,6 +1,8 @@
+import '@babel/polyfill';
 import express from 'express';
 import logger from 'morgan';
 import Debug from 'debug';
+import cors from 'cors';
 import ServerResponse from './server/modules/ServerResponse';
 
 // import router
@@ -11,6 +13,8 @@ const { successfulRequest, serverError, error404 } = ServerResponse;
 const API_PREFIX = '/api/v1';
 const app = express();
 const PORT = process.env.PORT || 6000;
+
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
